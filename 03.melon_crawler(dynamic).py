@@ -26,7 +26,6 @@ likes_url = 'https://www.melon.com/commonlike/getSongLike.json'
 header = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
     'Referer': 'https://www.melon.com/chart/search/index.htm',
-    'Cookie': 'SCOUTER=x2tbftd69m7f5g; PCID=15394284289426392500889; PC_PCID=15394284289426392500889; POC=WP10; WMONID=jGE0lrNKToO; charttutorial=true; personalexpand=true; data-salePrtCodeBfBuyPhase=2S5; data-recmdDispIds=',
     'X-Requested-With': 'XMLHttpRequest'
 }
 
