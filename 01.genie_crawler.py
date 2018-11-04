@@ -6,7 +6,6 @@ import datetime
 
 host_url = 'http://www.genie.co.kr/chart/top200?ditc=W&rtm=N&ymd='
 
-
 def get_chart(date):
     html = requests.get(host_url + str(date)).text
     soup = BeautifulSoup(html, 'html.parser')
