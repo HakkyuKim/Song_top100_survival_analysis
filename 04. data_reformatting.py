@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import time
 import re
 import datetime
+from SongData import SongData
 
 header = {
     'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36',
@@ -14,34 +15,10 @@ header = {
 }
 
 
-class SongData:
-
-    def __init__(self, song_id, song_name, date, artist_name, album_name, album_id, artist_id):
-        self.song_id = song_id
-        self.song_name = song_name
-        self.date = date
-        self.artist_name = artist_name
-        self.artist_id = artist_id
-        self.album_name = album_name
-        self.album_id = album_id
-        self.rank = None
-        self.end_date = None
-        self.censoring = 1
-
-    def update_rank(self, rank):
-        if self.rank is None:
-            self.rank = rank
-        else:
-            self.rank = min(self.rank, rank)
-
-    def update_end_date(self, end_date):
-        self.end_date = end_date
-
-
 song_check = set()
 album_check = set()
 before_chart = dict()
-currrent_chart = dict()
+current_chart = dict()
 song_dict = dict()
 album_dict = dict()
 book = dict()
@@ -69,10 +46,10 @@ def process_files(path):
             print("file {}/{}, track {}/{}".format(cnt, total_file_num, idx + 1, total_track_num))
             process_track(track, date, year)
         for song_id in before_chart.keys():
-            if song_id not in currrent_chart.keys():
+            if song_id not in current_chart.keys():
                 book[(song_id, before_chart[song_id])].update_end_date(date)
-        before_chart = currrent_chart.copy()
-        currrent_chart.clear()
+        before_chart = current_chart.copy()
+        current_chart.clear()
         print("{}/{}".format(cnt, len(filenames)))
         cnt += 1
 
@@ -211,10 +188,10 @@ def process_track(track, date, year):
         sd = SongData(song_id, song_name, date, artist_name, album_name, album_id, artist_id)
         sd.update_rank(rank)
         book[(song_id, date)] = sd
-        currrent_chart[song_id] = date
+        current_chart[song_id] = date
     elif song_id in before_chart.keys():
         book[(song_id, before_chart[song_id])].update_rank(rank)
-        currrent_chart[song_id] = before_chart[song_id]
+        current_chart[song_id] = before_chart[song_id]
 
 
 def cal_date_gap(date1, date2):
